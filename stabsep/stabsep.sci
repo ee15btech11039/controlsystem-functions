@@ -58,7 +58,7 @@ function [ga,gs,gi]=stabsep(g)
             return;
         
         else
-    //      [ab,w,bs]=bdiag(a);
+    //     [ab,w,bs]=bdiag(a),
             a1=a(1:n,1:n),a4=a(n+1:t,n+1:t),x=a(1:n,n+1:t),
             z=sylv(a1,-a4,-x,'c'),
             w=[eye(n,n),z;0*ones(t-n,n),eye(t-n,t-n)],
