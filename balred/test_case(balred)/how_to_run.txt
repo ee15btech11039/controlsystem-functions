@@ -1,0 +1,8 @@
+run
+bal.m>>testbalred.sci>>testbalred.m    //to generate graphs
+
+
+
+result: in case of stable system the results of scilab balred function is 
+matching totally with scilab's balred function,in case of unstable system there 
+is slight differences in some cases,as can be seen from the graph(figure3)
