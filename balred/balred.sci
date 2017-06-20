@@ -40,9 +40,13 @@ function[rsys]=balred(sys,n)
     if typeof(n)~='constant' then
         error(msprintf(gettext("%s: Wrong type for input argument #%d: positive integer or vectors expected\n"),"balred",2))
     end ,
-    if n<0 then
+    if ~and(n>=0) then
         error(msprintf(gettext("%s: Wrong type for input argument #%d: positive integer or vectors expected\n"),"balred",2))
-    end ,  
+    end , 
+    if ~and(n-ceil(n)==0) then
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: positive integer or vectors expected\n"),"balred",2))
+    end , 
+     
     if sys.dt==[] then
         warning(msprintf(gettext("%s: Input argument %d is assumed continuous time.\n"),"balred",1));
         sys.dt='c'
@@ -92,7 +96,21 @@ function[rsys]=balred(sys,n)
     if(ga==0)then
         flag2=1,
     end,
-    gs=balreal(gs); //here we are using the balaned realization truncation algorithm
+    if(gs==0)then  //if system is completely unstable it can't be reduced
+        warning(msprintf(gettext("%s:as stable part of the system is constant system cannot be reduced,returning the original system \n"),"balred"));
+        if(len_n==1)then
+            rsys=ga;
+            return;
+        else
+            for(i=1:len_n)
+                rsys{i,1}=ga;
+            end
+            return;
+        end,
+    else
+        gs=balreal(gs);
+    end,
+     //here we are using the balaned realization truncation algorithm
     [a,b,c,d]=abcd(gs); 
     len=size(a,1) //order of the stable part of the system
     count=1
