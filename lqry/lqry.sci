@@ -71,26 +71,26 @@ function [K,X,e]=lqry(sys,Q,R,N)
     B2=sys.B
     [nx,nu]=size(B2)
     if or(size(Q)<>nx) then
-        error(msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",2,nx,nx))
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",2,nx,nx))
     end
     if or(size(R)<>nu) then
-        error(msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",3,nu,nu))
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",3,nu,nu))
     end
     if norm(Q.'-Q,1)>100*%eps*norm(Q,1) then
-        error(msprintf(_("%s: Wrong value for input argument #%d: Must be symmetric.\n"),"lqry",2))
+        error(msprintf(gettext("%s: Wrong value for input argument #%d: Must be symmetric.\n"),"lqry",2))
     end
     if norm(R.'-R,1)>100*%eps*norm(R,1) then
-        error(msprintf(_("%s: Wrong value for input argument #%d: Must be symmetric.\n"),"lqry",3))
+        error(msprintf(gettext("%s: Wrong value for input argument #%d: Must be symmetric.\n"),"lqry",3))
     end,
     if argn(2)<4 then
         N=zeros(nu,nx);
     elseif or(size(N)<>[nu,nx]) then
-        error(msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",4,nu,nx))
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"lqry",4,nu,nx))
     end,
     [a,b,c,d]=abcd(sys)
     k2=[Q,N';N,R]
     if norm(k2.'-k2,1)>100*%eps*norm(k2,1) then
-        warning(msprintf("%s:[Q,N_tran;N,R]should be symmetric.\n'),"lqry"))
+        warning(msprintf(gettext("%s:[Q,Nt;N,R]should be symmetric.\n"),"lqry"));
     end,
     row=size(k2)(1)
     col=size(k2)(2)
@@ -104,7 +104,8 @@ function [K,X,e]=lqry(sys,Q,R,N)
     k3=[c,d;zeromat,I]
     k=k1*k2*k3
     if norm(k.'-k,1)>100*%eps*norm(k,1) then
-        warning(msprintf("%s:[C D;0 I]trans*[Q,N_tran;N,R]*[C D;0 I]should be symmetric.\n'),"lqry"))
+        warning(msprintf(gettext("%s: Bad conditionning.\n"),"lqry"));
+        //warning(msprintf("%s:[C D;0 I]transx[Q,Ntran;N,R]x[C D;0 I]should be symmetric.\n"),"lqry"))
     end,
     q=k(1:lenr_Q,1:lenc_Q)
     n=k(1:lenr_Q,lenc_Q+1:size(k)(2))
@@ -112,9 +113,9 @@ function [K,X,e]=lqry(sys,Q,R,N)
     r=k(lenr_Q+1:size(k)(1),lenc_Q+1:size(k)(2))
     [K,X]=lqr(sys,q,r,n)
     e=spec(a+b*K)
+    K=-
     return;
 endfunction
-
     
     
     
