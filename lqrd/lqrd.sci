@@ -38,9 +38,9 @@ function [K,X,e]=lqrd(A,B,Q,R,N,ts)
     vr = real(spec(R));
     vqnr = real(spec([Q N';N R]));
     if min(vr)<=0 then
-        error("%s Bad conditioning \n","lqrd")
+        error(msprintf("%s Bad conditioning \n","lqrd"))
     elseif min(vqnr)<-100*%eps*max(0,max(vqnr)) then 
-        warning("%s Bad conditioning \n",'lqrd')
+        warning(msprintf(gettext("%s Bad conditioning \n",'lqrd')))
     end
     
     n=nx+nu
@@ -72,7 +72,7 @@ function [K,X,e]=lqrd(A,B,Q,R,N,ts)
           Nd, 0*bd', Rd];
             
    [w,ks]=schur(bigA,bigE,'d');
-    if ks<>n then error('lqrd: stable subspace too small!');end
+    if ks<>n then error(msprintf('lqrd: stable subspace too small!'));end
     ws=w(:,1:n);
     X12=ws(1:n,:);
     phi12=ws(n+1:2*n,:);
@@ -82,3 +82,4 @@ function [K,X,e]=lqrd(A,B,Q,R,N,ts)
     X=phi12/X12;
     K=-K
 endfunction
+
