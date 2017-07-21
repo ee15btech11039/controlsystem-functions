@@ -19,11 +19,17 @@ function[rsys]=balred(sys,n)
     //   
     //Algorithms
     //blanced truncation algorithm is used to reduce the order of the system.
+    //
     //ref: http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=261486&tag=1
+    //
     //Examples
+    //sys=ssrand(1,1,10);
+    //sysred=balred(sys,6);
+    //ff=0.01:0.01:100;
+    //bode(sys,ff);
+    //scf(1);
+    //bode(sysred,ff);
     //
-    //
-    
     //Author
     //Ayush Kumar
     
