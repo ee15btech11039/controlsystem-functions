@@ -1,0 +1,13 @@
+load('testreg.mat')
+sys1=ss(a1,b1,c1,d1);
+sys2=ss(a2,b2,c2,d2);
+rsys1=reg(sys1,k1,l1)
+%rsys1.a
+%rsys1.b
+%rsys1.c
+%rsys1.d
+rsys2=reg(sys2,k2,l2,sensors,known,controls)
+%rsys1.a
+%rsys1.b
+%rsys1.c
+%rsys1.d
