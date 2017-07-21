@@ -15,44 +15,35 @@ function [K,X,e]=lqry(sys,Q,R,N)
      
     //Description   
     //[K,X,e] = lqry(sys,Q,R,N) 
-    //Computes the linear optimal LQ full-state gain K for the linear dynamical system , the Riccati solution S, and the closed-loop eigenvalues e = eig(A-B*K).
-    //   sys:
-    //   <latex>
-	//    \begin{eqnarray}
-    //      \[
-    //          x.=Ax+Bu
-    //          z=Cx+Du
-    //      \]
-	//    \end{eqnarray}
-	//   </latex>
+    //Computes the linear optimal LQ full-state gain K for the linear dynamical system , 
+    //the Riccati solution S, and the closed-loop eigenvalues e = eig(A-B*K).
+    //          
+    //  sys :     dx/dt=Ax+Bu
     // in continuous time or
-    //   <latex>
-	//    \begin{eqnarray}
-    //      \[
     //          x+=Ax+Bu
-    //      \]
-	//    \end{eqnarray}
-	//   </latex>
     // in discrete time.
     //P:
-    //   And instantaneous cost function in l2-norm: 
-    //   <latex>
-	//    \begin{eqnarray}
-    //      \[
-    //          [y' u']BigQ[x u]' where BigQ=[Q N';N R]
-    //      \]
-	//    \end{eqnarray}
-	//   </latex>
-    //
+    //   And instantaneous cost function X in l2-norm: 
+    //      [y' u']BigQ[y u]' where BigQ=[Q N';N R]
+
+    //Algorithm 
     //the function lqry is equivalent to lqr with weighting matrices:
     //  [QQ,NN';NN,RR]=[C',0;D',I]BigQ[C,D;0,I]
+    
     //Examples
-    //
+    //sys1=ssrand(3,1,3); //randomly generated sysytem
+    //[a1,b1,c1,d1]=abcd(sys1);
+    //[nx1,nu1]=size(sys1.b);
+    //q1=rand(nx1,nx1);q1=(q1+q1')/2;
+    //r1=rand(nu1,nu1);r1=(r1+r1')/2;
+    //n1=rand(nu1,nx1);
+    //[k1,x1]=lqry(sys1,q1,r1,n1)
     
     //Author
     //Ayush Kumar
 
     [lhs,rhs]=argn(0),
+    //error checking ....................................................................
     if (rhs<3 || rhs>4) then
         error(msprintf(gettext("%s: Wrong number of input arguments:%d arguments sys,Q,R,N expected.\n"),"lqry",1))
     end
@@ -113,12 +104,6 @@ function [K,X,e]=lqry(sys,Q,R,N)
     r=k(lenr_Q+1:size(k)(1),lenc_Q+1:size(k)(2))
     [K,X]=lqr(sys,q,r,n)
     e=spec(a+b*K)
-    K=-
+    K=-K
     return;
 endfunction
-    
-    
-    
-    
-    
-
